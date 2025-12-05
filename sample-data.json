@@ -1,0 +1,93 @@
+{
+  "transformationType": "API",
+  "sourceProject": "web/Areas/Affiliate/Controllers",
+  "targetProject": "FMG.Communication.WebApi",
+  "repository": "fmg.communication",
+  "transformationGoal": "Transform legacy monolithic APIs to REST-compliant microservices",
+  "businessJustification": "Improve maintainability, scalability, and enable independent deployment of services. Current monolithic architecture creates bottlenecks and makes it difficult to scale specific features independently.",
+  "legacyCodePaths": [
+    "web/Areas/Affiliate/Controllers/SocialPostController.cs",
+    "web/Areas/Affiliate/Models/SocialPostModels.cs"
+  ],
+  "currentPattern": "Monolithic MVC",
+  "keyIssues": "Non-REST compliant endpoints, tight coupling between layers, difficult to test, no clear separation of concerns",
+  "coreBusinessLogic": "Social post creation, scheduling, and management for advisors",
+  "architecturalPattern": "Clean Architecture with Component-Based Design",
+  "layerStructure": [
+    { "name": "Controllers", "purpose": "API endpoints and request/response handling" },
+    { "name": "Components", "purpose": "Business logic and orchestration" },
+    { "name": "Repository", "purpose": "Data access abstraction" },
+    { "name": "Infrastructure", "purpose": "External service integrations" }
+  ],
+  "targetLocation": "FMG.Communication.WebApi/Controllers",
+  "internalDependencies": [
+    {
+      "name": "FMG.Content.WebApi",
+      "purpose": "Content operations and management",
+      "location": "/content/api",
+      "notes": "Must call endpoints, never query database directly"
+    }
+  ],
+  "externalSystems": [
+    {
+      "name": "SQL Server",
+      "connectionType": "Entity Framework Core",
+      "purpose": "Primary data storage",
+      "notes": "Use repository pattern for all access"
+    },
+    {
+      "name": "AWS S3",
+      "connectionType": "AWS SDK",
+      "purpose": "Media file storage",
+      "notes": "Store images and attachments"
+    }
+  ],
+  "authMethod": "JWT",
+  "authImplementation": "Middleware",
+  "errorStrategy": "Global exception middleware",
+  "loggingFramework": "Serilog",
+  "loggingLevel": "Info",
+  "apiResourceNaming": "Use nouns (social-posts, not getSocialPost). Lowercase with hyphens for multi-word names.",
+  "apiNamingConvention": "kebab-case",
+  "apiVersioningStrategy": "URL versioning (/v1/, /v2/) for breaking changes",
+  "unitTestCoverage": "90",
+  "integrationTestsRequired": true,
+  "testingFramework": "xUnit",
+  "mappingApproach": "Manual mapping with extension methods",
+  "mustFollow": [
+    "Use existing tech stack - DO NOT upgrade dependencies",
+    "Follow Clean Architecture pattern",
+    "Maintain backward compatibility during transition",
+    "Use Swagger annotations for all endpoints"
+  ],
+  "mustNotDo": [
+    "Do not directly query Content API's database tables",
+    "Do not expose component models directly in API responses",
+    "Do not create duplicate endpoints",
+    "Do not upgrade .NET version or other dependencies"
+  ],
+  "preferredApproaches": [
+    "Reuse existing Content API endpoints",
+    "Enhance with query parameters rather than creating new endpoints",
+    "Use middleware for cross-cutting concerns"
+  ],
+  "functionalSuccess": [
+    "All legacy API functionality replicated",
+    "Social post creation works as expected",
+    "Post scheduling functions correctly",
+    "No regression in existing features"
+  ],
+  "technicalSuccess": [
+    "REST API standards followed",
+    "Test coverage meets 90% requirement",
+    "Performance requirements met",
+    "Security requirements met"
+  ],
+  "businessSuccess": [
+    "No breaking changes to existing clients",
+    "User workflows remain unchanged",
+    "System scalability improved"
+  ],
+  "migrationApproach": "Phased",
+  "rollbackPlan": "1. Disable feature flag to revert to legacy endpoints\n2. Monitor error logs and metrics\n3. If critical issues, deploy previous version from Git tag\n4. Communicate with stakeholders"
+}

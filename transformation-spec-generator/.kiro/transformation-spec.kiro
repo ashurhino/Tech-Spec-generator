@@ -1,0 +1,86 @@
+# Kiroween-Hackathon Specification
+
+## Reference Documents
+
+Please read and follow the specifications in these documents:
+
+- Requirements: #[[file:.kiro/requirements-specification.md]]
+- Technical Details: #[[file:.kiro/technical-details.md]]
+- User Stories: #[[file:.kiro/case-management-stories_markdown.pdf]]
+- UAN Document: #[[file:.kiro/case-manageent-UAN.json]]
+- UAD Document: #[[file:.kiro/universal-application-document.docx]]
+
+---
+
+Architectural Pattern: Clean Architecture, microservices,modern UI screens
+
+## Implementation Structure
+
+### Domain Layer
+- User entity with ID, Email, PasswordHash, Passwordsalt, Refresh Token
+- Roles, created At, Updated At
+- Roles entity with ID, Name
+- Refresh Token entity with ID, Token, UserID, Expires AT
+
+### Application Layer
+- Use cases / Application services
+- Command and Query handlers (CQRS pattern)
+- DTOs for input/output
+- Validation logic (FluentValidation)
+- Application-level interfaces
+
+### Infrastructure Layer
+- Database context and configurations
+- Repository implementations
+- External service integrations
+- Caching implementations
+- Message queue handlers
+- File storage services
+
+### Presentation Layer
+- API Controllers / Endpoints
+- Request/Response models
+- Authentication middleware
+- API versioning
+- Swagger/OpenAPI documentation
+- Error handling middleware
+
+
+## Transformation Goal
+Transform this applicationinto .net 8.0 core backend with React frontend with material UIframework. Make sure the application has all the screens matching the functionality and controllers from backend
+
+## Task: Generate Complete Application Code
+
+You MUST generate a complete, working application with Clean Architecture, microservices,modern UI screens architecture.
+
+### Step 1: Analyze Requirements
+Read ALL the reference documents above and extract:
+- All domain entities with their properties and relationships
+- All business validation rules and constraints
+- All workflows and business processes
+- All API endpoints and operations
+
+### Step 2: Generate Complete Code
+Create ALL files for a production-ready application:
+
+1. **Domain Layer**: Generate entity classes for EVERY entity found in the documents
+2. **Application Layer**: Generate commands, handlers, validators, and DTOs for ALL operations
+3. **Infrastructure Layer**: Generate DbContext, repositories, services, and migrations
+4. **API Layer**: Generate controllers for ALL endpoints with proper routing
+5. **Configuration**: Generate appsettings.json, Program.cs, and dependency injection setup
+6. **Database**: Generate EF Core migrations for all entities
+7. **Docker**: Generate Dockerfile and docker-compose.yml
+8. **Tests**: Generate unit tests for key business logic
+
+### Step 3: Implementation Requirements
+- Use .NET 8 with C# 12
+- Implement ALL entities, not just examples
+- Include ALL validation rules from the documents
+- Add proper error handling and logging
+- Follow clean architecture principles strictly
+- Generate working, compilable code
+
+### Step 4: Create Project Structure
+Organize code in the src/ folder following the layer structure below.
+
+DO NOT just analyze - you must CREATE all the actual code files!
